@@ -18,6 +18,7 @@ type GPTResponse struct {
 	Policy                string            `json:"policy"`
 	Error                 bool              `json:"error"`
 	Confidence            int               `json:"confidence"`
+	TerraformOnly         bool              `json:"terraform_only"`
 }
 
 var UserPromptSchema = map[string]interface{}{
@@ -75,6 +76,10 @@ var UserPromptSchema = map[string]interface{}{
 			"confidence": map[string]interface{}{
 				"type":        "integer",
 				"description": "Confidence level from 1 to 10 about the policy name.",
+			},
+			"terraform_only": map[string]interface{}{
+				"type":        "boolean",
+				"description": "Indicates if the user only wants a Terraform snippet.",
 			},
 		},
 		"required": []string{
@@ -199,6 +204,10 @@ func GenerateCLICommand(response GPTResponse) string {
 
 	if response.RequestedResourceType != "" {
 		flags = append(flags, fmt.Sprintf("--service %s", response.RequestedResourceType))
+	}
+
+	if response.TerraformOnly {
+		flags = append(flags, fmt.Sprintf("--terraform %t", response.TerraformOnly))
 	}
 
 	if len(flags) == 0 {

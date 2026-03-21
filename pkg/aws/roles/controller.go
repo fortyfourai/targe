@@ -335,6 +335,10 @@ func (c *Controller) Done() error {
 	case DetachPolicySlug.String():
 		return c.api.DetachPolicyFromRole(context.Background(), c.State.GetPolicy().Arn, c.State.GetRole().Name)
 	case AttachCustomPolicySlug.String():
+		if c.State.GetTerraform() {
+			return nil
+		}
+
 		output, err := c.api.CreatePolicy(context.Background(), c.State.GetPolicy().Name, c.State.GetPolicy().Document)
 		if err != nil {
 			return err

@@ -28,6 +28,9 @@ func RegisterUsersFlags(flags *pflag.FlagSet) {
 	if err = viper.BindPFlag("policy_option", flags.Lookup("policy-option")); err != nil {
 		panic(err)
 	}
+	if err = viper.BindPFlag("terraform", flags.Lookup("terraform")); err != nil {
+		panic(err)
+	}
 }
 
 func RegisterRolesFlags(flags *pflag.FlagSet) {
@@ -50,6 +53,9 @@ func RegisterRolesFlags(flags *pflag.FlagSet) {
 	if err = viper.BindPFlag("policy_option", flags.Lookup("policy-option")); err != nil {
 		panic(err)
 	}
+	if err = viper.BindPFlag("terraform", flags.Lookup("terraform")); err != nil {
+		panic(err)
+	}
 }
 
 func RegisterGroupsFlags(flags *pflag.FlagSet) {
@@ -70,6 +76,9 @@ func RegisterGroupsFlags(flags *pflag.FlagSet) {
 		panic(err)
 	}
 	if err = viper.BindPFlag("policy_option", flags.Lookup("policy-option")); err != nil {
+		panic(err)
+	}
+	if err = viper.BindPFlag("terraform", flags.Lookup("terraform")); err != nil {
 		panic(err)
 	}
 }

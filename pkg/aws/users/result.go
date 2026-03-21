@@ -95,7 +95,7 @@ func (m Result) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 }
 
 func (m Result) View() string {
-	if m.form.State == huh.StateCompleted && m.error == nil {
+	if m.form.State == huh.StateCompleted && m.error == nil || m.controller.State.terraform {
 		// Success Message with Exit Footer
 		successMessage := fmt.Sprintf(
 			"\n%s\n\n%s\n",

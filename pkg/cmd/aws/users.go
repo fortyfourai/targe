@@ -53,6 +53,7 @@ func NewUsersCommand(cfg *config.Config) *cobra.Command {
 	f.String("resource", "", "resource")
 	f.String("service", "", "service")
 	f.String("policy-option", "", "policy option")
+	f.String("terraform", "", "terraform")
 
 	// SilenceUsage is set to true to suppress usage when an error occurs
 	command.SilenceUsage = true
@@ -84,6 +85,7 @@ func users(cfg *config.Config) func(cmd *cobra.Command, args []string) error {
 		resource := viper.GetString("resource")
 		service := viper.GetString("service")
 		policyOption := viper.GetString("policy-option")
+		terraform := viper.GetBool("terraform")
 
 		// Load the AWS configuration
 		awscfg, err := awsconfig.LoadDefaultConfig(context.Background())
@@ -160,6 +162,10 @@ func users(cfg *config.Config) func(cmd *cobra.Command, args []string) error {
 			}
 
 			state.SetPolicyOption(&op)
+		}
+
+		if terraform {
+			state.SetTerraform(true)
 		}
 
 		controller := pkgusers.NewController(api, cfg.OpenaiApiKey, state)

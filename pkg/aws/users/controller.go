@@ -393,25 +393,41 @@ func (c *Controller) Next() tea.Model {
 
 func (c *Controller) Done() error {
 	switch c.State.operation.Id {
+
 	case AttachPolicySlug.String():
 		return c.api.AttachPolicyToUser(context.Background(), c.State.GetPolicy().Arn, c.State.GetUser().Name)
+
 	case DetachPolicySlug.String():
 		return c.api.DetachPolicyFromUser(context.Background(), c.State.GetPolicy().Arn, c.State.GetUser().Name)
+
 	case AddToGroupSlug.String():
 		return c.api.AddUserToGroup(context.Background(), c.State.GetUser().Name, c.State.GetGroup().Name)
+
 	case RemoveFromGroupSlug.String():
 		return c.api.RemoveUserFromGroup(context.Background(), c.State.GetUser().Name, c.State.GetGroup().Name)
+
 	case AttachCustomPolicySlug.String():
-		output, err := c.api.CreatePolicy(context.Background(), c.State.GetPolicy().Name, c.State.GetPolicy().Document)
+		if c.State.terraform {
+			return nil
+		}
+
+		output, err := c.api.CreatePolicy(
+			context.Background(),
+			c.State.GetPolicy().Name,
+			c.State.GetPolicy().Document,
+		)
 		if err != nil {
 			return err
 		}
-		return c.api.AttachPolicyToUser(context.Background(), *output.Policy.Arn, c.State.GetUser().Name)
+		return c.api.AttachPolicyToUser(
+			context.Background(),
+			*output.Policy.Arn,
+			c.State.GetUser().Name,
+		)
+
 	default:
 		return errors.New("operation not supported")
 	}
-
-	return nil
 }
 
 // Switch handles window size changes and updates the model accordingly.

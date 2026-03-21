@@ -12,6 +12,7 @@ type State struct {
 	service      *models.Service
 	resource     *models.Resource
 	policy       *models.Policy
+	terraform    bool
 }
 
 // Getters
@@ -86,4 +87,12 @@ func (s *State) SetResource(resource *models.Resource) {
 // SetPolicy updates the policy in the state.
 func (s *State) SetPolicy(policy *models.Policy) {
 	s.policy = policy
+}
+
+func (s *State) SetTerraform(terraform bool) {
+	s.terraform = terraform
+}
+
+func (s *State) GetTerraform() bool {
+	return s.terraform
 }
