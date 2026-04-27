@@ -25,7 +25,7 @@ jobs:
         run: sudo apt-get install -y wixl
 
       - name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v6.4.0
+        uses: goreleaser/goreleaser-action@v7.2.1
         with:
           distribution: goreleaser-pro
           version: ~> v2
